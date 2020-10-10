@@ -26,13 +26,13 @@ void main()
 
 void *functionCount1()
 {
-        while (count <= T1 || count >= T2)
-        {
-            count += 1;
-            printf("count value functionCount1: %d\n", count);
-            sleep(2);
-            if (count == DONE) 
-                pthread_exit(NULL);
+     while (count <= T1 || count >= T2)
+     {
+         count += 1;
+         printf("count value functionCount1: %d\n", count);
+         sleep(2);
+         if (count == DONE) 
+            pthread_exit(NULL);
         }
 }
 
