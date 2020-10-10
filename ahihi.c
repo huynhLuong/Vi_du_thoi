@@ -1,5 +1,7 @@
 void *thread_start(void *args)
 {
+    if (pthread_detach( pthread_self()))
+        perror("Fail reason:");
     pthread_exit(NULL);
 }
 
@@ -17,8 +19,10 @@ int main(void)
         }
         usleep(10);
         count++;
-        if (0 == count % 10000)
+        if (count % 10000 == 0)
+        {
             printf("Number of threads are created: %ld\n", count);
+        }
     }
     return 0;
 }
