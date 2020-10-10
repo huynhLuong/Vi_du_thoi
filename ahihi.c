@@ -1,26 +1,52 @@
-void *thread_start(void *args)
+#include <pthread.h>
+#include <errno.h>
+#include <time.h>
+#include <stdio.h>
+
+#define T1 4
+#define T2 8 
+
+#define DONE 10
+
+int count;
+
+void *functionCount1();
+void *functionCount2();
+
+
+void main()
 {
-    if (pthread_detach( pthread_self()))
-        perror("Fail reason:");
-    pthread_exit(NULL);
+    pthread_t thread1, thread2;
+    int ret1, ret2;
+    
+    ret1 = pthread_create(&thread1, NULL, &functionCount1, NULL);
+    ret2 = pthread_create(&thread2, NULL, &functionCount2, NULL);
+    if ( 0 != ret1 || 0 != ret2 )
+        perror("False reason: ");
+    pthread_join( thread1, NULL );
+    pthread_join( thread2, NULL );
 }
 
-int main(void)
+void *functionCount1()
 {
-    pthread_t thread1;
-    int ret;
-    long count = 0;
-    
-    while (1){
-        if (ret = pthread_create(&thread1, NULL, thread_start, NULL))
+        while (count <= T1 || count >= T2)
         {
-            perror("Fail reason:");
-            break;
+            count += 1;
+            printf("count value functionCount1: %d\n", count);
+            sleep(2);
+            if (count == DONE) 
+                pthread_exit(NULL);
         }
-        usleep(10);
-        count++;
-        if (count % 10000 == 0)
-            printf("Number of threads are created: %ld\n", count);
+}
+
+void *functionCount2()
+{
+    while (count > T1 && count < T2)
+    {
+        count += 1;
+        printf("count value functionCount2: %d\n", count);
+        sleep(2);
+        if (count == DONE)
+            pthread_exit(NULL);
     }
-    return 0;
 }
