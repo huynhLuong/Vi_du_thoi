@@ -6,9 +6,9 @@
 
 int  count = 0;
 
-#define COUNT_DONE  10
-#define COUNT_HALT1  3
-#define COUNT_HALT2  6
+#define DONE  10
+#define T1  3
+#define T2  6
 
 
 pthread_mutex_t count_mutex     = PTHREAD_MUTEX_INITIALIZER;
@@ -20,7 +20,7 @@ void *functionCount1()
    for(;;)
    {
       pthread_mutex_lock( &condition_mutex );
-      while( count >= COUNT_HALT1 && count <= COUNT_HALT2 )
+      while( count >= T1 && count <= T2 )
       {
          pthread_cond_wait( &condition_cond, &condition_mutex );
       }
@@ -31,7 +31,7 @@ void *functionCount1()
       sleep(1);
       printf("Counter value functionCount1: %d\n",count);
       pthread_mutex_unlock( &count_mutex );
-      if(count >= COUNT_DONE)
+      if(count >= DONE)
          pthread_exit(NULL);
     }
 }
@@ -41,7 +41,7 @@ void *functionCount2()
     for(;;)
     {
        pthread_mutex_lock( &condition_mutex );
-       if( count < COUNT_HALT1 || count > COUNT_HALT2 )
+       if( count < T1 || count > T2 )
        {
           pthread_cond_signal( &condition_cond );
        }
@@ -52,7 +52,7 @@ void *functionCount2()
        sleep(1);
        printf("Counter value functionCount2: %d\n",count);
        pthread_mutex_unlock( &count_mutex );
-       if(count >= COUNT_DONE)
+       if(count >= DONE)
           pthread_exit(NULL);
     }
 }
