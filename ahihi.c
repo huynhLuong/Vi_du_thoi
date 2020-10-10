@@ -5,14 +5,11 @@
 
 #define T1 4
 #define T2 8 
-
 #define DONE 10
 
 int count;
-
 void *functionCount1();
 void *functionCount2();
-
 
 void main()
 {
