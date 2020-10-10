@@ -17,10 +17,8 @@ int main(void)
         }
         usleep(10);
         count++;
-        if (count % 10000 == 0)
-        {
+        if (0 == count % 10000)
             printf("Number of threads are created: %ld\n", count);
-        }
     }
     return 0;
 }
